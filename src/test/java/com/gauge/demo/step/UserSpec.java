@@ -1,6 +1,7 @@
 package com.gauge.demo.step;
 
 import com.gauge.demo.client.GithubClient;
+import com.gauge.demo.model.Follower;
 import com.gauge.demo.model.Repo;
 import com.gauge.demo.model.User;
 import com.thoughtworks.gauge.Step;
@@ -28,7 +29,7 @@ public class UserSpec {
         dataStore.put("username", username);
 
         User user = githubClient.getUser(username);
-        System.out.println(":::::::::::::userr" + user);
+        System.out.println(":::::::::::::user" + user);
 
         assertThat(user.getName()).isEqualTo(username);
 
@@ -47,5 +48,15 @@ public class UserSpec {
         Repo repo = repos.get(new Random().nextInt(repoCount));
         assertThat(repo.getOwner()).isNotNull();
         assertThat(repo.getOwner().getName()).isEqualTo(username);
+    }
+
+    @Step("query given user followers and validate repos count")
+    public void getUserFollowers() {
+        String username = (String) dataStore.get("username");
+
+        List<Follower> followers = githubClient.getFollowers(username);
+
+        assertThat(followers.isEmpty()).isEqualTo(false);
+        followers.forEach(System.out::println);
     }
 }

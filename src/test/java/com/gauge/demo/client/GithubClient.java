@@ -2,6 +2,7 @@ package com.gauge.demo.client;
 
 import com.gauge.demo.config.FeignConfig;
 import com.gauge.demo.model.Company;
+import com.gauge.demo.model.Follower;
 import com.gauge.demo.model.Repo;
 import com.gauge.demo.model.User;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -24,4 +25,7 @@ public interface GithubClient {
 
     @GetMapping("/orgs/{company}")
     Company getCompany(@PathVariable("company") String company);
+
+    @GetMapping("users/{username}/followers")
+    List<Follower> getFollowers(@PathVariable("username") String username);
 }
